@@ -1,6 +1,7 @@
 import os
 from collections import namedtuple
-import csv
+from openpyxl import load_workbook
+from functools import reduce
 
 def main():
     scan_for_file()
@@ -28,13 +29,36 @@ def scan_for_file():
 
 
 def read_file(filename):
+    wb = load_workbook(filename)
+    s = wb[wb.sheetnames[0]]
+    # header = s['1']
+    # l = []
+    #
+    # for item in header:
+    #     if item.value is not None:
+    #         l.append(item.value)
+    #
+
+
+    # s = ("\"" + s + "\"")
+    # print(s)
+    # s = s.lstrip().lstrip('.').lstrip('a')
+    # print(s)
+    # TestItem = namedtuple("TestItem",s)
+    # print(TestItem)
+    # s = ', '.join(str(x) for x in l)
+
     TestItem = namedtuple("TestItem",
                           "Number, Tool, Order, ID, Job, Activity, Index, PRI, Clicks, "
                           "Time, FUN, SIM, PER, STA, SCA, SEC, Comments")
-    with open(filename, 'rb') as file:
-    	reader = csv.reader(file)
-    	for row in reader:
-    		    print ' '.join(row)
+    for r in range(2,10):
+        row = s[r]
+        l = []
+        for i in range(0,17):
+            l.append(row[i].value)
+        TestItem._make(l)
+
+    print(TestItem)
 
 
 
