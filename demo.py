@@ -8,7 +8,7 @@ def main():
 
 def scan_for_file():
     list = []
-    for item in os.listdir():
+    for item in os.listdir('.'):
         if item.endswith(".xlsx"):
             list.append(item)
 
@@ -31,9 +31,11 @@ def read_file(filename):
     TestItem = namedtuple("TestItem",
                           "Number, Tool, Order, ID, Job, Activity, Index, PRI, Clicks, "
                           "Time, FUN, SIM, PER, STA, SCA, SEC, Comments")
+    with open(filename, 'rb') as file:
+    	reader = csv.reader(file)
+    	for row in reader:
+    		    print ' '.join(row)
 
-    for emp in map(TestItem._make, csv.reader(open(filename, "r"))):
-        print(emp.Order, emp.Activity)
 
 
 if __name__ == '__main__':
